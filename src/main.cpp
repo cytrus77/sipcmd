@@ -414,7 +414,7 @@ bool Manager::Init(PArgList &args)
         std::cerr << "invalid protocol" << std::endl;
         return false;
     }
-    
+
     if (args.HasOption('w')) {
         std::string val = args.GetOptionString('w');
         TPState::Instance().SetGateway(val);
@@ -442,7 +442,7 @@ bool Manager::SendDTMF(const PString &dtmf)
     PSafePtr<OpalConnection> connection = call->GetConnection(
             listenmode ? 0 : 1);
     if (connection) {
-        size_t i = 0;
+        int i = 0;
         for (; i < dtmf.GetSize() - 1; i++) {
             if (!connection->SendUserInputTone(dtmf[i], 0))
                 break;
@@ -464,7 +464,7 @@ bool Manager::SendDTMF(const PString &dtmf)
 
     return ok;
 }
-            
+
 RTPSession::RTPSession(const Params& options) : RTP_UDP(options), m_audioformat(NULL)
 {
   std::cout << "RTP session created" << std::endl;
@@ -545,7 +545,7 @@ bool Manager::MakeCall(const PString &remoteParty)
         std::cerr << "invalid address: " << remoteParty << std::endl;
         return false;
       }
-    
+
       // create rtp session
       RTP_Session::Params p;
       p.id = OpalMediaType::Audio().GetDefinition()->GetDefaultSessionId();
@@ -559,7 +559,7 @@ bool Manager::MakeCall(const PString &remoteParty)
       // local and remote addresses
       PIPSocket::Address remote(arr[0]);
       PIPSocket::Address local(TPState::Instance().GetLocalAddress());
-      
+
       if (!m_rtpsession->SetRemoteSocketInfo(remote, arr[1].AsInteger(), true)) {
         cerr << "could not set remote socket info" << endl;
         return false;

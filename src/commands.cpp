@@ -436,7 +436,7 @@ bool Wait::ParseCommand(
     return false;
   }
 
-  sscanf(*cmds, "%u", &millis);
+  sscanf(*cmds, "%u", reinterpret_cast<int*>(&millis));
   *cmds = &((*cmds)[i]);
   sequence.push_back(this);
   return true;
